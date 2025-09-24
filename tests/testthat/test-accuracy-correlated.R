@@ -20,7 +20,7 @@ test_that("reasonably accurate estimates with covariates and correlation", {
   # yy1 <- rpois(n, lambda=eta)
   yy1 <- rnbinom(n, mu=eta, size=eta^2)
 
-  my_df <- tibble(yy1, xx1, xstar1, xx_covariates1, xx_covariates2, id)
+  my_df <- tibble::tibble(yy1, xx1, xstar1, xx_covariates1, xx_covariates2, id)
 
   output10 <- fit_mgx_model(enviro_df = my_df,
                             yy = "yy1",

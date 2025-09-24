@@ -52,7 +52,7 @@ test_that("with small parameter values, centering does not affect results", {
   eta <- xx1 * beta0 * (xstar1/xx1)^beta1 * exp(beta2 * xx_covariates1 + beta3 * xx_covariates2 + b[id])
   yy1 <- rnbinom(n, mu=eta, size=eta^2)
 
-  my_df <- tibble(yy1, xx1, predictor = log((xstar1 + 1)/(xx1 + 1)), xx_covariates1, xx_covariates2, id)
+  my_df <- tibble::tibble(yy1, xx1, predictor = log((xstar1 + 1)/(xx1 + 1)), xx_covariates1, xx_covariates2, id)
 
   output3 <- fit_mgx_model(data.frame(yy = yy1,
                                       xstar = xstar1,
@@ -245,7 +245,7 @@ test_that("reasonably accurate estimates with covariates and correlation", {
   # yy1 <- rpois(n, lambda=eta)
   yy1 <- rnbinom(n, mu=eta, size=eta^2)
 
-  my_df <- tibble(yy1, xx1, xstar1, xx_covariates1, xx_covariates2, id)
+  my_df <- tibble::tibble(yy1, xx1, xstar1, xx_covariates1, xx_covariates2, id)
 
   output9 <- fit_mgx_model(yy = "yy1",
                            xstar = "xstar1",

@@ -19,7 +19,7 @@ fit_mgx_model(
 )
 }
 \arguments{
-\item{enviro_df}{A data frame or tibble with columns containing the relevant variables, and rows denoting the observations. Columns must contain the following data: observed gene expression data, taxon abundance data, environmental covariates, and (optionally) technical replicate information.}
+\item{enviro_df}{A data frame or tibble with columns containing the relevant variables, and rows denoting the observations. Columns must contain the following data: observed gene expression data, taxon abundance data, environmental covariates, and (optionally) technical replicate information. If any of these values are missing, the entire row containing the missing value will be removed from the data.}
 
 \item{yy}{The name of the column in \code{enviro_df} containing the expression data for a gene expressed by the responder taxon. Default is "yy". Expression data could be in the form of coverage, counts, etc. See vignettes for details on acceptable and suggested datatypes and preprocessing ("normalizations"). In the above notation, this corresponds to the expression of gene \eqn{k} expressed by taxon \eqn{j}.}
 

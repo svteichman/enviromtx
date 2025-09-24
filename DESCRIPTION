@@ -1,6 +1,6 @@
 Package: enviromtx
 Title: Predicting Species-Species Interactions from Environmental Metatranscriptomics Data
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     c(person("Amy D", "Willis", email = "adwillis@uw.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2802-4317")),
       person("Sarah", "Teichman", role = "aut"),
@@ -15,9 +15,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     dplyr,
-    geepack,
-    geeasy,
     lazyeval, 
     raoBust (>= 1.1.1),
-    tibble
+    tibble,
+    geeasy,
+    geepack
 Remotes: statdivlab/raoBust

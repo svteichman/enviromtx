@@ -26,13 +26,9 @@
 #'    Users can override some or all of these.
 #'    If \code{center = TRUE}, then covariates will be centered before being included in the model.
 #'
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
-#' @importFrom lazyeval f_new as_call
-#' @importFrom raoBust glm_test
-#' @import stats
-#' @import geepack
+#' @importFrom raoBust glm_test gee_test
 #' @import geeasy
+#' @import geepack
 #'
 #' @examples
 #' my_df <- data.frame(xx = rpois(20, lambda = 400),
@@ -163,7 +159,7 @@ fit_mgx_model <- function(
       stop("At least one replicate provided is infinite. Please fix this and then rerun.")
     }
   }
-  covs <- all.vars(update(formula, . ~ .))[-1]
+  covs <- all.vars(stats::update(formula, . ~ .))[-1]
   for (i in 1:length(covs)) {
     if (any(is.infinite(my_df[[covs[i]]]))) {
       stop(paste0("At least one value of covariate ", covs[i], " is infinite. Please fix this and rerun."))
@@ -178,7 +174,7 @@ fit_mgx_model <- function(
   # center covariates if desired
   if (control$center) {
     # get variable names from the formula
-    vars <- setdiff(all.vars(update(formula, . ~ .))[-1], "predictor")
+    vars <- setdiff(all.vars(stats::update(formula, . ~ .))[-1], "predictor")
 
     # copy data so we don't overwrite
     data_centered <- my_df
@@ -222,11 +218,11 @@ fit_mgx_model <- function(
   ## E[Y]/X = gamma0 * (X^*/X)^beta1 * e^(beta2*salinity + beta3*iron)
 
   if (is.null(replicates)) {
-    raoBust_out <- raoBust::glm_test(formula = formula,
-                                     offset = offset,
-                                     family = stats::poisson(link = "log"),
-                                     data = my_df,
-                                     weights = wts)$coef_tab
+    raoBust_out <- glm_test(formula = formula,
+                            offset = offset,
+                            family = stats::poisson(link = "log"),
+                            data = my_df,
+                            weights = wts)$coef_tab
   } else {
     if (!all(my_df[[wts]] == 1L)) {
       warning("Run this by Amy; not sure what this is doing off-the-cuff")
@@ -239,13 +235,13 @@ fit_mgx_model <- function(
       id <- "id"
     }
 
-    raoBust_out <- raoBust::gee_test(formula = formula,
-                                     offset = offset,
-                                     family = stats::poisson(link="log"),
-                                     id = id,
-                                     data = my_df,
-                                     use_jack_se = use_jack_se,
-                                     cluster_corr_coef = cluster_corr_coef)$coef_tab
+    raoBust_out <- gee_test(formula = formula,
+                            offset = offset,
+                            family = stats::poisson(link="log"),
+                            id = id,
+                            data = my_df,
+                            use_jack_se = use_jack_se,
+                            cluster_corr_coef = cluster_corr_coef)$coef_tab
   }
 
 
